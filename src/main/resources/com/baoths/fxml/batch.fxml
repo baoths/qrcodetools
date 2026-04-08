@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.geometry.Insets?>
+
+<SplitPane dividerPositions="0.55" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.baoths.controller.BatchController">
+
+    <!-- LEFT: Input -->
+    <VBox spacing="12" styleClass="card">
+        <padding><Insets top="16" right="16" bottom="16" left="16"/></padding>
+
+        <Label text="Tạo QR Code hàng loạt" styleClass="label-title"/>
+        <Label text="Nhập mỗi nội dung trên một dòng:" styleClass="label-status"/>
+
+        <TextArea fx:id="txaBatchInput" promptText="https://example1.com&#10;https://example2.com&#10;Nội dung 3&#10;..."
+                  wrapText="true" VBox.vgrow="ALWAYS" prefRowCount="15"/>
+
+        <Label fx:id="lblLineCount" text="0 dòng" styleClass="label-status"/>
+
+        <Separator/>
+
+        <!-- Batch Configuration -->
+        <Label text="Cấu hình" styleClass="label-subtitle"/>
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Kích thước:"/>
+            <ComboBox fx:id="cmbBatchSize" promptText="Chọn kích thước"/>
+        </HBox>
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Sửa lỗi:"/>
+            <ComboBox fx:id="cmbBatchErrorCorrection" promptText="Mức sửa lỗi"/>
+        </HBox>
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Định dạng:"/>
+            <ComboBox fx:id="cmbBatchFormat" promptText="Định dạng ảnh"/>
+        </HBox>
+
+        <Separator/>
+
+        <Button fx:id="btnBatchGenerate" text="⚡ Tạo tất cả" styleClass="button-primary"
+                maxWidth="Infinity" onAction="#handleBatchGenerate"/>
+    </VBox>
+
+    <!-- RIGHT: Progress & Actions -->
+    <VBox spacing="12" styleClass="card" alignment="TOP_CENTER">
+        <padding><Insets top="16" right="16" bottom="16" left="16"/></padding>
+
+        <Label text="Tiến độ" styleClass="label-subtitle"/>
+
+        <ProgressBar fx:id="prgBatch" maxWidth="Infinity" prefHeight="20" progress="0"/>
+        <Label fx:id="lblBatchProgress" text="Chưa bắt đầu" styleClass="label-status"/>
+
+        <Separator/>
+
+        <Label text="Kết quả" styleClass="label-subtitle"/>
+        <TextArea fx:id="txaBatchLog" editable="false" wrapText="true"
+                  promptText="Log sẽ hiển thị ở đây..."
+                  VBox.vgrow="ALWAYS" prefRowCount="12"/>
+
+        <Separator/>
+
+        <Button fx:id="btnBatchSave" text="💾 Lưu vào thư mục..." styleClass="button-success"
+                maxWidth="Infinity" onAction="#handleBatchSave" disable="true"/>
+    </VBox>
+</SplitPane>

@@ -1,0 +1,546 @@
+/* ============================================================
+   QRCodeTools - Dual Theme Stylesheet
+   Dark Theme (default) + Light Theme (via .light-theme class)
+   ============================================================ */
+
+/* --- CSS Variables via looked-up colors --- */
+
+/* ============ DARK THEME (DEFAULT) ============ */
+.root {
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+    -fx-font-size: 14px;
+    -qr-bg-primary: #1a1b2e;
+    -qr-bg-secondary: #252742;
+    -qr-bg-tertiary: #2f3256;
+    -qr-bg-card: #2a2d4a;
+    -qr-text-primary: #e8e9f3;
+    -qr-text-secondary: #a0a3bd;
+    -qr-text-muted: #6b6f8d;
+    -qr-accent: #7c5cff;
+    -qr-accent-hover: #9b7fff;
+    -qr-accent-glow: rgba(124, 92, 255, 0.3);
+    -qr-success: #34d399;
+    -qr-warning: #fbbf24;
+    -qr-danger: #f87171;
+    -qr-border: #3a3d5c;
+    -qr-shadow: rgba(0, 0, 0, 0.4);
+    -fx-background-color: -qr-bg-primary;
+    -fx-text-fill: -qr-text-primary;
+}
+
+/* ============ LIGHT THEME ============ */
+.light-theme {
+    -qr-bg-primary: #f0f2f8;
+    -qr-bg-secondary: #ffffff;
+    -qr-bg-tertiary: #e8eaf4;
+    -qr-bg-card: #ffffff;
+    -qr-text-primary: #1a1b2e;
+    -qr-text-secondary: #555770;
+    -qr-text-muted: #8b8da6;
+    -qr-accent: #6842d0;
+    -qr-accent-hover: #5533b3;
+    -qr-accent-glow: rgba(104, 66, 208, 0.15);
+    -qr-success: #16a34a;
+    -qr-warning: #d97706;
+    -qr-danger: #dc2626;
+    -qr-border: #d0d3e4;
+    -qr-shadow: rgba(0, 0, 0, 0.08);
+    -fx-background-color: -qr-bg-primary;
+}
+
+/* ============ TAB PANE ============ */
+.tab-pane {
+    -fx-tab-min-height: 40px;
+    -fx-tab-max-height: 40px;
+}
+
+.tab-pane > .tab-header-area {
+    -fx-padding: 4 8 0 8;
+}
+
+.tab-pane > .tab-header-area > .tab-header-background {
+    -fx-background-color: -qr-bg-secondary;
+    -fx-background-radius: 0;
+    -fx-border-color: transparent transparent -qr-border transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab {
+    -fx-background-color: transparent;
+    -fx-background-radius: 8 8 0 0;
+    -fx-padding: 8 20;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab > .tab-container > .tab-label {
+    -fx-text-fill: -qr-text-muted;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:selected {
+    -fx-background-color: -qr-accent;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:selected > .tab-container > .tab-label {
+    -fx-text-fill: white;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:hover:!selected {
+    -fx-background-color: -qr-bg-tertiary;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:hover:!selected > .tab-container > .tab-label {
+    -fx-text-fill: -qr-text-primary;
+}
+
+.tab-pane > .tab-content-area {
+    -fx-background-color: -qr-bg-primary;
+    -fx-padding: 16;
+}
+
+/* Hide close button on tabs */
+.tab-pane > .tab-header-area > .headers-region > .tab > .tab-container > .tab-close-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+/* ============ BUTTONS ============ */
+.button {
+    -fx-background-color: -qr-bg-tertiary;
+    -fx-text-fill: -qr-text-primary;
+    -fx-padding: 8 18;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: -qr-border;
+    -fx-border-width: 1;
+    -fx-cursor: hand;
+    -fx-font-size: 13px;
+}
+
+.button:hover {
+    -fx-background-color: -qr-accent;
+    -fx-text-fill: white;
+    -fx-border-color: -qr-accent;
+    -fx-effect: dropshadow(gaussian, -qr-accent-glow, 12, 0.3, 0, 2);
+}
+
+.button:pressed {
+    -fx-background-color: -qr-accent-hover;
+    -fx-scale-x: 0.97;
+    -fx-scale-y: 0.97;
+}
+
+.button:disabled {
+    -fx-background-color: -qr-bg-tertiary;
+    -fx-text-fill: -qr-text-muted;
+    -fx-border-color: -qr-border;
+    -fx-opacity: 0.5;
+    -fx-cursor: default;
+}
+
+.button-primary {
+    -fx-background-color: -qr-accent;
+    -fx-text-fill: white;
+    -fx-border-color: -qr-accent;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 10 24;
+}
+
+.button-primary:hover {
+    -fx-background-color: -qr-accent-hover;
+    -fx-effect: dropshadow(gaussian, -qr-accent-glow, 16, 0.4, 0, 3);
+}
+
+.button-success {
+    -fx-background-color: -qr-success;
+    -fx-text-fill: white;
+    -fx-border-color: -qr-success;
+}
+
+.button-success:hover {
+    -fx-background-color: derive(-qr-success, -15%);
+    -fx-effect: dropshadow(gaussian, rgba(52, 211, 153, 0.3), 12, 0.3, 0, 2);
+}
+
+.button-danger {
+    -fx-background-color: -qr-danger;
+    -fx-text-fill: white;
+    -fx-border-color: -qr-danger;
+}
+
+.button-danger:hover {
+    -fx-background-color: derive(-qr-danger, -15%);
+}
+
+/* ============ TEXT FIELDS & TEXT AREAS ============ */
+.text-field, .text-area {
+    -fx-background-color: -qr-bg-tertiary;
+    -fx-text-fill: -qr-text-primary;
+    -fx-prompt-text-fill: -qr-text-muted;
+    -fx-border-color: -qr-border;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 8 12;
+    -fx-font-size: 13px;
+}
+
+.text-field:focused, .text-area:focused {
+    -fx-border-color: -qr-accent;
+    -fx-effect: dropshadow(gaussian, -qr-accent-glow, 8, 0.2, 0, 0);
+}
+
+.text-area {
+    -fx-padding: 10 12;
+}
+
+.text-area .content {
+    -fx-background-color: -qr-bg-tertiary;
+}
+
+/* ============ LABELS ============ */
+.label {
+    -fx-text-fill: -qr-text-primary;
+    -fx-font-size: 13px;
+}
+
+.label-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -qr-text-primary;
+}
+
+.label-subtitle {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -qr-text-secondary;
+    -fx-padding: 8 0 4 0;
+}
+
+.label-status {
+    -fx-font-size: 12px;
+    -fx-text-fill: -qr-text-muted;
+    -fx-padding: 4 0;
+}
+
+.label-success {
+    -fx-text-fill: -qr-success;
+    -fx-font-weight: bold;
+}
+
+.label-error {
+    -fx-text-fill: -qr-danger;
+    -fx-font-weight: bold;
+}
+
+/* ============ COMBO BOX ============ */
+.combo-box {
+    -fx-background-color: -qr-bg-tertiary;
+    -fx-border-color: -qr-border;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 2 4;
+    -fx-cursor: hand;
+}
+
+.combo-box .list-cell {
+    -fx-text-fill: -qr-text-primary;
+    -fx-background-color: transparent;
+    -fx-font-size: 13px;
+}
+
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.combo-box .arrow-button .arrow {
+    -fx-background-color: -qr-text-secondary;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: -qr-bg-secondary;
+    -fx-border-color: -qr-border;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(gaussian, -qr-shadow, 8, 0, 0, 4);
+}
+
+.combo-box-popup .list-view .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: -qr-text-primary;
+    -fx-padding: 6 12;
+}
+
+.combo-box-popup .list-view .list-cell:hover {
+    -fx-background-color: -qr-accent;
+    -fx-text-fill: white;
+}
+
+/* ============ CHECK BOX ============ */
+.check-box {
+    -fx-text-fill: -qr-text-primary;
+    -fx-cursor: hand;
+}
+
+.check-box .box {
+    -fx-background-color: -qr-bg-tertiary;
+    -fx-border-color: -qr-border;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-padding: 3;
+}
+
+.check-box:selected .box {
+    -fx-background-color: -qr-accent;
+    -fx-border-color: -qr-accent;
+}
+
+.check-box:selected .box .mark {
+    -fx-background-color: white;
+}
+
+/* ============ TOGGLE BUTTON (Theme Switch) ============ */
+.toggle-button {
+    -fx-background-color: -qr-bg-tertiary;
+    -fx-text-fill: -qr-text-secondary;
+    -fx-padding: 6 14;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-border-color: -qr-border;
+    -fx-border-width: 1;
+    -fx-cursor: hand;
+    -fx-font-size: 12px;
+}
+
+.toggle-button:selected {
+    -fx-background-color: -qr-accent;
+    -fx-text-fill: white;
+    -fx-border-color: -qr-accent;
+}
+
+/* ============ COLOR PICKER ============ */
+.color-picker {
+    -fx-background-color: -qr-bg-tertiary;
+    -fx-border-color: -qr-border;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-color-label-visible: false;
+}
+
+.color-picker .arrow-button {
+    -fx-background-color: transparent;
+}
+
+/* ============ SCROLL PANE ============ */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: -qr-text-muted;
+    -fx-background-radius: 10;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: -qr-text-secondary;
+}
+
+.scroll-bar .increment-button, .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.scroll-bar .increment-arrow, .scroll-bar .decrement-arrow {
+    -fx-shape: "";
+    -fx-padding: 0;
+}
+
+/* ============ TABLE VIEW ============ */
+.table-view {
+    -fx-background-color: -qr-bg-secondary;
+    -fx-border-color: -qr-border;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: -qr-bg-tertiary;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent -qr-border transparent;
+    -fx-padding: 8 12;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: -qr-text-secondary;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+
+.table-view .table-row-cell {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent -qr-border transparent;
+    -fx-border-width: 0 0 0.5 0;
+    -fx-padding: 4 0;
+}
+
+.table-view .table-row-cell:odd {
+    -fx-background-color: derive(-qr-bg-secondary, -3%);
+}
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: -qr-accent-glow;
+}
+
+.table-view .table-row-cell:selected .text {
+    -fx-fill: -qr-text-primary;
+}
+
+.table-view .table-cell {
+    -fx-text-fill: -qr-text-primary;
+    -fx-padding: 6 12;
+    -fx-font-size: 12px;
+}
+
+.table-view .table-row-cell:hover {
+    -fx-background-color: derive(-qr-bg-tertiary, 5%);
+}
+
+/* ============ PROGRESS BAR ============ */
+.progress-bar {
+    -fx-background-color: -qr-bg-tertiary;
+    -fx-background-radius: 10;
+    -fx-padding: 2;
+}
+
+.progress-bar > .bar {
+    -fx-background-color: linear-gradient(to right, -qr-accent, -qr-success);
+    -fx-background-radius: 8;
+    -fx-background-insets: 1;
+}
+
+.progress-bar > .track {
+    -fx-background-color: -qr-bg-tertiary;
+    -fx-background-radius: 10;
+}
+
+/* ============ CARD PANEL ============ */
+.card {
+    -fx-background-color: -qr-bg-card;
+    -fx-background-radius: 12;
+    -fx-border-color: -qr-border;
+    -fx-border-radius: 12;
+    -fx-border-width: 1;
+    -fx-padding: 16;
+    -fx-effect: dropshadow(gaussian, -qr-shadow, 6, 0, 0, 2);
+}
+
+/* ============ QR PREVIEW AREA ============ */
+.qr-preview {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-border-color: -qr-border;
+    -fx-border-radius: 12;
+    -fx-border-width: 1;
+    -fx-padding: 20;
+    -fx-alignment: center;
+    -fx-effect: dropshadow(gaussian, -qr-shadow, 8, 0, 0, 3);
+}
+
+/* ============ DRAG & DROP ZONE ============ */
+.drop-zone {
+    -fx-background-color: -qr-bg-tertiary;
+    -fx-background-radius: 12;
+    -fx-border-color: -qr-text-muted;
+    -fx-border-radius: 12;
+    -fx-border-width: 2;
+    -fx-border-style: dashed;
+    -fx-padding: 40;
+    -fx-alignment: center;
+}
+
+.drop-zone-active {
+    -fx-border-color: -qr-accent;
+    -fx-background-color: -qr-accent-glow;
+    -fx-effect: dropshadow(gaussian, -qr-accent-glow, 12, 0.3, 0, 0);
+}
+
+/* ============ SEPARATOR ============ */
+.separator .line {
+    -fx-border-color: -qr-border;
+    -fx-border-width: 0.5;
+}
+
+/* ============ TOOL BAR (Top bar) ============ */
+.tool-bar {
+    -fx-background-color: -qr-bg-secondary;
+    -fx-padding: 6 12;
+    -fx-border-color: transparent transparent -qr-border transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+/* ============ SPLIT PANE ============ */
+.split-pane {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.split-pane > .split-pane-divider {
+    -fx-background-color: -qr-border;
+    -fx-padding: 0 1 0 1;
+}
+
+/* ============ TOOLTIP ============ */
+.tooltip {
+    -fx-background-color: -qr-bg-card;
+    -fx-text-fill: -qr-text-primary;
+    -fx-background-radius: 6;
+    -fx-border-color: -qr-border;
+    -fx-border-radius: 6;
+    -fx-padding: 6 10;
+    -fx-font-size: 12px;
+    -fx-effect: dropshadow(gaussian, -qr-shadow, 6, 0, 0, 2);
+}
+
+/* ============ WEBCAM VIEW ============ */
+.webcam-view {
+    -fx-background-color: #000000;
+    -fx-background-radius: 12;
+    -fx-border-color: -qr-border;
+    -fx-border-radius: 12;
+    -fx-border-width: 1;
+    -fx-alignment: center;
+}
+
+/* ============ HEADER BAR ============ */
+.header-bar {
+    -fx-background-color: -qr-bg-secondary;
+    -fx-padding: 10 20;
+    -fx-alignment: CENTER_LEFT;
+    -fx-border-color: transparent transparent -qr-border transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-spacing: 12;
+}
+
+.app-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -qr-accent;
+}
+
+

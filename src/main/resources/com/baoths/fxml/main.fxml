@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.baoths.controller.MainController">
+
+    <!-- Top Header Bar -->
+    <top>
+        <HBox styleClass="header-bar" alignment="CENTER_LEFT">
+            <children>
+                <Label text="⬛ QRCodeTools" styleClass="app-title" fx:id="lblAppTitle"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <ToggleButton fx:id="btnThemeToggle" text="🌙 Tối" onAction="#handleThemeToggle"
+                              styleClass="toggle-button"/>
+            </children>
+        </HBox>
+    </top>
+
+    <!-- Main TabPane -->
+    <center>
+        <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab text="📝 Tạo QR" closable="false">
+                    <fx:include source="generator.fxml"/>
+                </Tab>
+                <Tab text="🔍 Giải mã" closable="false">
+                    <fx:include source="decoder.fxml"/>
+                </Tab>
+                <Tab text="📷 Webcam" closable="false">
+                    <fx:include source="webcam.fxml"/>
+                </Tab>
+                <Tab text="📦 Batch" closable="false">
+                    <fx:include source="batch.fxml"/>
+                </Tab>
+                <Tab text="📋 Lịch sử" closable="false">
+                    <fx:include source="history.fxml"/>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </center>
+
+    <!-- Bottom Status Bar -->
+    <bottom>
+        <HBox styleClass="header-bar" alignment="CENTER_LEFT" spacing="10">
+            <children>
+                <Label fx:id="lblStatus" text="Sẵn sàng" styleClass="label-status"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label text="v1.0 | QRCodeTools by BaoTHS" styleClass="label-status"/>
+            </children>
+        </HBox>
+    </bottom>
+</BorderPane>

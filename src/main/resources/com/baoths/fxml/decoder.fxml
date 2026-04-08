@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="16" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.baoths.controller.DecoderController">
+    <padding><Insets top="16" right="20" bottom="16" left="20"/></padding>
+
+    <Label text="Giải mã QR Code" styleClass="label-title"/>
+
+    <HBox spacing="20" VBox.vgrow="ALWAYS">
+        <!-- Left: Drop Zone & Image Preview -->
+        <VBox spacing="12" HBox.hgrow="ALWAYS" alignment="TOP_CENTER">
+
+            <!-- Drag & Drop Zone -->
+            <StackPane fx:id="pnlDropZone" styleClass="drop-zone" minHeight="250" maxWidth="Infinity">
+                <VBox alignment="CENTER" spacing="8">
+                    <Label text="📂" style="-fx-font-size: 48px;"/>
+                    <Label text="Kéo thả ảnh QR vào đây" styleClass="label-subtitle"/>
+                    <Label text="hoặc" styleClass="label-status"/>
+                    <Button fx:id="btnChooseFile" text="Chọn file ảnh..." onAction="#handleChooseFile"/>
+                </VBox>
+            </StackPane>
+
+            <!-- Image Preview -->
+            <StackPane fx:id="pnlImagePreview" styleClass="card" minHeight="200" visible="false" managed="false">
+                <ImageView fx:id="imgPreview" preserveRatio="true" fitWidth="300" fitHeight="300"/>
+            </StackPane>
+        </VBox>
+
+        <!-- Right: Decoded Result -->
+        <VBox spacing="12" HBox.hgrow="ALWAYS" styleClass="card">
+            <Label text="Kết quả giải mã" styleClass="label-subtitle"/>
+
+            <Label fx:id="lblDecodedType" text="" styleClass="label-status"/>
+
+            <TextArea fx:id="txaDecodedContent" editable="false" wrapText="true"
+                      promptText="Nội dung QR code sẽ hiển thị ở đây..."
+                      VBox.vgrow="ALWAYS" prefRowCount="8"/>
+
+            <Label fx:id="lblDecodeStatus" text="" styleClass="label-status"/>
+
+            <HBox spacing="10">
+                <Button fx:id="btnCopyResult" text="📋 Copy nội dung" onAction="#handleCopyResult" disable="true"/>
+                <Button fx:id="btnClearResult" text="🗑️ Xoá" onAction="#handleClearResult" disable="true"/>
+            </HBox>
+        </VBox>
+    </HBox>
+</VBox>

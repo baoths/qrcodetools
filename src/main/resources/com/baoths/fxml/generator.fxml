@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Orientation?>
+
+<SplitPane dividerPositions="0.45" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.baoths.controller.GeneratorController">
+
+    <!-- LEFT: Input & Configuration -->
+    <ScrollPane fitToWidth="true" hbarPolicy="NEVER">
+        <VBox spacing="12" styleClass="card">
+            <padding><Insets top="16" right="16" bottom="16" left="16"/></padding>
+
+            <!-- QR Type Selection -->
+            <Label text="Loại mã QR" styleClass="label-subtitle"/>
+            <ComboBox fx:id="cmbQRType" maxWidth="Infinity" promptText="Chọn loại QR"/>
+
+            <!-- Dynamic Input Area -->
+            <Label text="Nội dung" styleClass="label-subtitle"/>
+
+            <!-- Text / URL input (default) -->
+            <TextArea fx:id="txaContent" promptText="Nhập nội dung mã QR..." prefRowCount="3"
+                      wrapText="true" maxWidth="Infinity"/>
+
+            <!-- WiFi fields -->
+            <VBox fx:id="pnlWifi" spacing="8" managed="false" visible="false">
+                <TextField fx:id="txtWifiSSID" promptText="Tên mạng WiFi (SSID)"/>
+                <TextField fx:id="txtWifiPassword" promptText="Mật khẩu WiFi"/>
+                <ComboBox fx:id="cmbWifiEncryption" promptText="Loại mã hóa" maxWidth="Infinity"/>
+            </VBox>
+
+            <!-- VCard fields -->
+            <VBox fx:id="pnlVCard" spacing="8" managed="false" visible="false">
+                <TextField fx:id="txtVCardName" promptText="Họ và tên"/>
+                <TextField fx:id="txtVCardPhone" promptText="Số điện thoại"/>
+                <TextField fx:id="txtVCardEmail" promptText="Email"/>
+                <TextField fx:id="txtVCardOrg" promptText="Tổ chức / Công ty"/>
+            </VBox>
+
+            <!-- Email fields -->
+            <VBox fx:id="pnlEmail" spacing="8" managed="false" visible="false">
+                <TextField fx:id="txtEmailAddr" promptText="Địa chỉ email"/>
+                <TextField fx:id="txtEmailSubject" promptText="Tiêu đề (tùy chọn)"/>
+                <TextField fx:id="txtEmailBody" promptText="Nội dung (tùy chọn)"/>
+            </VBox>
+
+            <!-- Phone fields -->
+            <VBox fx:id="pnlPhone" spacing="8" managed="false" visible="false">
+                <TextField fx:id="txtPhone" promptText="Số điện thoại (vd: +84912345678)"/>
+            </VBox>
+
+            <!-- Maps fields -->
+            <VBox fx:id="pnlMaps" spacing="8" managed="false" visible="false">
+                <TextField fx:id="txtMapsLat" promptText="Vĩ độ (latitude)"/>
+                <TextField fx:id="txtMapsLng" promptText="Kinh độ (longitude)"/>
+            </VBox>
+
+            <!-- Clipboard paste button -->
+            <HBox spacing="8">
+                <Button fx:id="btnPasteClipboard" text="📋 Dán từ Clipboard" onAction="#handlePasteClipboard"/>
+            </HBox>
+
+            <Separator/>
+
+            <!-- Customization Section -->
+            <Label text="Tuỳ chỉnh" styleClass="label-subtitle"/>
+
+            <!-- Size -->
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Kích thước:"/>
+                <ComboBox fx:id="cmbSize" promptText="Chọn kích thước"/>
+            </HBox>
+
+            <!-- Error Correction -->
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Sửa lỗi:"/>
+                <ComboBox fx:id="cmbErrorCorrection" promptText="Mức sửa lỗi"/>
+            </HBox>
+
+            <!-- Module Shape -->
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Hình dạng:"/>
+                <ComboBox fx:id="cmbModuleShape" promptText="Hình dạng module"/>
+            </HBox>
+
+            <!-- Colors -->
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Màu QR:"/>
+                <ColorPicker fx:id="cpkForeground"/>
+                <Label text="Nền:"/>
+                <ColorPicker fx:id="cpkBackground"/>
+            </HBox>
+
+            <!-- Gradient -->
+            <CheckBox fx:id="chkGradient" text="Sử dụng Gradient" onAction="#handleGradientToggle"/>
+            <HBox fx:id="pnlGradient" spacing="10" alignment="CENTER_LEFT" managed="false" visible="false">
+                <Label text="Từ:"/>
+                <ColorPicker fx:id="cpkGradientStart"/>
+                <Label text="Đến:"/>
+                <ColorPicker fx:id="cpkGradientEnd"/>
+            </HBox>
+
+            <!-- Logo -->
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Logo:"/>
+                <Button fx:id="btnChooseLogo" text="Chọn logo..." onAction="#handleChooseLogo"/>
+                <Label fx:id="lblLogoName" text="Chưa chọn" styleClass="label-status"/>
+                <Button fx:id="btnClearLogo" text="✕" onAction="#handleClearLogo" managed="false" visible="false"/>
+            </HBox>
+
+            <Separator/>
+
+            <!-- Generate Button -->
+            <Button fx:id="btnGenerate" text="⚡ Tạo mã QR" styleClass="button-primary"
+                    maxWidth="Infinity" onAction="#handleGenerate"/>
+        </VBox>
+    </ScrollPane>
+
+    <!-- RIGHT: QR Preview & Actions -->
+    <VBox spacing="16" alignment="TOP_CENTER">
+        <padding><Insets top="16" right="16" bottom="16" left="16"/></padding>
+
+        <Label text="Xem trước mã QR" styleClass="label-subtitle"/>
+
+        <!-- QR Preview -->
+        <StackPane fx:id="pnlQRPreview" styleClass="qr-preview" minWidth="300" minHeight="300"
+                   maxWidth="500" maxHeight="500">
+            <ImageView fx:id="imgQRCode" preserveRatio="true" fitWidth="350" fitHeight="350"/>
+        </StackPane>
+
+        <Label fx:id="lblGenerateStatus" text="" styleClass="label-status"/>
+
+        <!-- Action Buttons -->
+        <HBox spacing="10" alignment="CENTER">
+            <Button fx:id="btnSave" text="💾 Lưu ảnh" onAction="#handleSave" disable="true"/>
+            <Button fx:id="btnPrint" text="🖨️ In" onAction="#handlePrint" disable="true"/>
+            <Button fx:id="btnCopyImage" text="📋 Copy ảnh" onAction="#handleCopyImage" disable="true"/>
+        </HBox>
+    </VBox>
+</SplitPane>
