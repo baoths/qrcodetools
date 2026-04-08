@@ -57,7 +57,7 @@
 ## Cài Đặt & Chạy 🚀
 
 ### Sử Dụng Trực Tiếp (.EXE)
-Bạn có thể tìm thấy tệp chạy dành cho Windows tại thư mục `target\QRCodeTools.exe` (Nếu đã đóng gói). Chỉ cần nháy đúp và sử dụng, không cần thao tác thiết lập phức tạp.
+Bạn có thể tìm tải và chạy `QRCodeTools.exe`.
 
 ### Phục Vụ Phát Triển (Dành Cho Dev)
 1. Hãy đảm bảo bạn đã cài đặt Java JDK 11 trở lên.
