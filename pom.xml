@@ -148,12 +148,12 @@
                                 <jdkPreference>preferJre</jdkPreference>
                             </jre>
                             <versionInfo>
-                                <fileVersion>1.0.0.0</fileVersion>
+                                <fileVersion>1.1.0.0</fileVersion>
                                 <txtFileVersion>${project.version}</txtFileVersion>
                                 <fileDescription>QRCodeTools</fileDescription>
                                 <copyright>Baoths</copyright>
-                                <productVersion>1.0.0.0</productVersion>
-                                <txtProductVersion>1.0.0.0</txtProductVersion>
+                                <productVersion>1.1.0.0</productVersion>
+                                <txtProductVersion>1.1.0.0</txtProductVersion>
                                 <productName>QRCodeTools</productName>
                                 <internalName>QRCodeTools</internalName>
                                 <originalFilename>QRCodeTools.exe</originalFilename>
