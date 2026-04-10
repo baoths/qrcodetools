@@ -13,6 +13,8 @@ public class QRCodeConfig {
     public static final int SIZE_SMALL = 200;
     public static final int SIZE_MEDIUM = 400;
     public static final int SIZE_LARGE = 600;
+    public static final double DEFAULT_LOGO_SCALE = 0.16;
+    public static final double MAX_SAFE_LOGO_SCALE = 0.22;
 
     private int foregroundColor;
     private int backgroundColor;
@@ -22,6 +24,7 @@ public class QRCodeConfig {
     private ModuleShape moduleShape;
     private ErrorCorrectionLevel errorCorrectionLevel;
     private File logoFile;
+    private double logoScale;
     private int size;
 
     /**
@@ -36,6 +39,7 @@ public class QRCodeConfig {
         this.moduleShape = ModuleShape.SQUARE;
         this.errorCorrectionLevel = ErrorCorrectionLevel.M;
         this.logoFile = null;
+    this.logoScale = DEFAULT_LOGO_SCALE;
         this.size = SIZE_MEDIUM;
     }
 
@@ -103,6 +107,14 @@ public class QRCodeConfig {
 
     public void setLogoFile(File logoFile) {
         this.logoFile = logoFile;
+    }
+
+    public double getLogoScale() {
+        return logoScale;
+    }
+
+    public void setLogoScale(double logoScale) {
+        this.logoScale = logoScale;
     }
 
     public int getSize() {

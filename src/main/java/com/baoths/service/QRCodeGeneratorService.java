@@ -8,6 +8,7 @@ import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 import javax.imageio.ImageIO;
 import java.awt.AlphaComposite;
@@ -32,6 +33,8 @@ import java.util.logging.Logger;
 public class QRCodeGeneratorService {
 
     private static final Logger LOGGER = Logger.getLogger(QRCodeGeneratorService.class.getName());
+    private static final double MIN_CONTRAST_RATIO = 3.5;
+    private static final double MIN_LOGO_SCALE = 0.08;
 
     /**
      * Generates a QR code image from content and configuration.
@@ -45,6 +48,12 @@ public class QRCodeGeneratorService {
         if (content == null || content.trim().isEmpty()) {
             throw new QRCodeException("Nội dung không được để trống.");
         }
+
+        if (config == null) {
+            throw new QRCodeException("Cấu hình QR không hợp lệ.");
+        }
+
+        validateSafety(config);
 
         LOGGER.info("Generating QR code: " + content.substring(0, Math.min(50, content.length())));
 
@@ -62,7 +71,7 @@ public class QRCodeGeneratorService {
 
             // Add logo if specified
             if (config.getLogoFile() != null && config.getLogoFile().exists()) {
-                qrImage = addLogo(qrImage, config.getLogoFile());
+                qrImage = addLogo(qrImage, config);
             }
 
             return qrImage;
@@ -71,6 +80,66 @@ public class QRCodeGeneratorService {
             LOGGER.log(Level.SEVERE, "Failed to generate QR code", e);
             throw new QRCodeException("Không thể tạo mã QR: " + e.getMessage(), e);
         }
+    }
+
+    /**
+     * Validates visual safety constraints so generated QR remains scannable.
+     */
+    private void validateSafety(QRCodeConfig config) throws QRCodeException {
+        Color background = new Color(config.getBackgroundColor(), true);
+
+        if (config.isUseGradient()) {
+            Color start = new Color(config.getGradientStartColor(), true);
+            Color end = new Color(config.getGradientEndColor(), true);
+
+            double startContrast = contrastRatio(start, background);
+            double endContrast = contrastRatio(end, background);
+            if (startContrast < MIN_CONTRAST_RATIO || endContrast < MIN_CONTRAST_RATIO) {
+                throw new QRCodeException(String.format(
+                        "Độ tương phản quá thấp (min %.1f). Vui lòng chọn màu QR đậm hơn hoặc nền sáng hơn.",
+                        MIN_CONTRAST_RATIO));
+            }
+        } else {
+            Color foreground = new Color(config.getForegroundColor(), true);
+            double contrast = contrastRatio(foreground, background);
+            if (contrast < MIN_CONTRAST_RATIO) {
+                throw new QRCodeException(String.format(
+                        "Độ tương phản quá thấp (%.2f < %.1f). Vui lòng tăng tương phản giữa mã QR và nền.",
+                        contrast, MIN_CONTRAST_RATIO));
+            }
+        }
+
+        if (config.getLogoFile() != null && config.getLogoFile().exists()) {
+            if (config.getErrorCorrectionLevel() == ErrorCorrectionLevel.L
+                    || config.getErrorCorrectionLevel() == ErrorCorrectionLevel.M) {
+                throw new QRCodeException("Khi dùng logo, hãy chọn mức sửa lỗi Q hoặc H để mã dễ quét hơn.");
+            }
+
+            if (config.getLogoScale() > QRCodeConfig.MAX_SAFE_LOGO_SCALE) {
+                throw new QRCodeException(String.format(
+                        "Logo quá to. Kích thước logo tối đa là %.0f%% chiều rộng mã QR.",
+                        QRCodeConfig.MAX_SAFE_LOGO_SCALE * 100));
+            }
+        }
+    }
+
+    private double contrastRatio(Color color1, Color color2) {
+        double l1 = relativeLuminance(color1);
+        double l2 = relativeLuminance(color2);
+        double lighter = Math.max(l1, l2);
+        double darker = Math.min(l1, l2);
+        return (lighter + 0.05) / (darker + 0.05);
+    }
+
+    private double relativeLuminance(Color color) {
+        double r = linearize(color.getRed() / 255.0);
+        double g = linearize(color.getGreen() / 255.0);
+        double b = linearize(color.getBlue() / 255.0);
+        return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    }
+
+    private double linearize(double channel) {
+        return channel <= 0.04045 ? channel / 12.92 : Math.pow((channel + 0.055) / 1.055, 2.4);
     }
 
     /**
@@ -85,7 +154,8 @@ public class QRCodeGeneratorService {
         int height = matrix.getHeight();
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = image.createGraphics();
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        // Keep module edges crisp to maximize scanner compatibility.
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 
         // Fill background
         g2d.setColor(new Color(config.getBackgroundColor(), true));
@@ -101,24 +171,12 @@ public class QRCodeGeneratorService {
             g2d.setColor(new Color(config.getForegroundColor(), true));
         }
 
-        // Calculate module size
-        // Find actual data bounds in the BitMatrix
-        int moduleSize = 1;
-        for (int x = 0; x < width; x++) {
-            if (matrix.get(x, height / 2) != matrix.get(0, height / 2)) {
-                moduleSize = x;
-                break;
-            }
-        }
-        if (moduleSize < 1) {
-            moduleSize = 1;
-        }
-
-        // Draw modules according to shape
-        for (int y = 0; y < height; y += moduleSize) {
-            for (int x = 0; x < width; x += moduleSize) {
+        // Draw every set pixel from the matrix.
+        // Do not infer module size from transitions because it can corrupt placement.
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
                 if (matrix.get(x, y)) {
-                    drawModule(g2d, x, y, moduleSize, config.getModuleShape());
+                    drawModule(g2d, x, y, 1, config.getModuleShape());
                 }
             }
         }
@@ -139,7 +197,6 @@ public class QRCodeGeneratorService {
                 Path2D diamond = new Path2D.Double();
                 double cx = x + size / 2.0;
                 double cy = y + size / 2.0;
-                double half = size / 2.0;
                 diamond.moveTo(cx, y);
                 diamond.lineTo(x + size, cy);
                 diamond.lineTo(cx, y + size);
@@ -162,8 +219,9 @@ public class QRCodeGeneratorService {
      * @return BufferedImage with logo overlay
      * @throws QRCodeException if logo cannot be loaded
      */
-    private BufferedImage addLogo(BufferedImage qrImage, File logoFile) throws QRCodeException {
+    private BufferedImage addLogo(BufferedImage qrImage, QRCodeConfig config) throws QRCodeException {
         try {
+            File logoFile = config.getLogoFile();
             BufferedImage logo = ImageIO.read(logoFile);
             if (logo == null) {
                 throw new QRCodeException("Không thể đọc file logo: " + logoFile.getName());
@@ -172,9 +230,10 @@ public class QRCodeGeneratorService {
             int qrWidth = qrImage.getWidth();
             int qrHeight = qrImage.getHeight();
 
-            // Logo occupies ~20% of QR code
-            int logoWidth = qrWidth / 5;
-            int logoHeight = qrHeight / 5;
+            double safeLogoScale = Math.max(MIN_LOGO_SCALE,
+                    Math.min(config.getLogoScale(), QRCodeConfig.MAX_SAFE_LOGO_SCALE));
+            int logoWidth = Math.max(1, (int) Math.round(qrWidth * safeLogoScale));
+            int logoHeight = Math.max(1, (int) Math.round(qrHeight * safeLogoScale));
 
             // Center position
             int x = (qrWidth - logoWidth) / 2;

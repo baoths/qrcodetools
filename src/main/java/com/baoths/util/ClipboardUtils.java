@@ -55,4 +55,18 @@ public final class ClipboardUtils {
         Clipboard.getSystemClipboard().setContent(content);
         LOGGER.info("Image copied to clipboard.");
     }
+
+    /**
+     * Returns the current image from the system clipboard.
+     *
+     * @return clipboard image, or null if clipboard does not contain an image
+     */
+    public static Image getImageFromClipboard() {
+        Clipboard clipboard = Clipboard.getSystemClipboard();
+        if (clipboard.hasImage()) {
+            LOGGER.info("Image retrieved from clipboard.");
+            return clipboard.getImage();
+        }
+        return null;
+    }
 }

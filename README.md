@@ -2,7 +2,7 @@
 
 **QRCodeTools** là một ứng dụng tiện ích độc lập (Desktop App) được xây dựng bằng công nghệ **JavaFX**, chuyên dùng để tạo, giải mã, quản lý, và quét mã QR Code trực tiếp từ máy tính mà không cần kết nối cơ sở dữ liệu.
 
-Ứng dụng hỗ trợ giao diện song ngữ Tiếng Việt, sử dụng mô hình MVC với Dark Mode hiện đại, tối ưu hóa để có thể chạy như một tệp thực thi (`.exe`) gọn nhẹ trên mọi máy tính.
+Ứng dụng hỗ trợ giao diện song ngữ Tiếng Việt, sử dụng mô hình MVC với Dark Mode hiện đại, và có thể đóng gói thành file `.exe` tự chứa runtime Java để người dùng cài đặt trực tiếp.
 
 ---
 
@@ -44,7 +44,7 @@
 ## Công Nghệ Sử Dụng 🛠️
 
 - **Nền tảng**: Java 11+, JavaFX 13 (OpenJFX).
-- **Build Tool**: Maven (`maven-shade-plugin`, `launch4j-maven-plugin`).
+- **Build Tool**: Maven (`maven-shade-plugin`, `launch4j-maven-plugin`, `exec-maven-plugin` + `jpackage`).
 - **Thư viện cốt lõi**:
   - `ZXing` (Zebra Crossing) - Xử lý giải pháp tạo và đọc mã vạch QR.
   - `webcam-capture` - Giao tiếp với thiết bị máy quay qua luồng native.
@@ -56,9 +56,6 @@
 
 ## Cài Đặt & Chạy 🚀
 
-### Sử Dụng Trực Tiếp (.EXE)
-Bạn có thể tìm thấy tệp chạy dành cho Windows tại thư mục `target\QRCodeTools.exe` (Nếu đã đóng gói). Chỉ cần nháy đúp và sử dụng, không cần thao tác thiết lập phức tạp.
-
 ### Phục Vụ Phát Triển (Dành Cho Dev)
 1. Hãy đảm bảo bạn đã cài đặt Java JDK 11 trở lên.
 2. Clone dự án và đặt tại thư mục làm việc.
@@ -67,10 +64,38 @@ Bạn có thể tìm thấy tệp chạy dành cho Windows tại thư mục `tar
    # Tải plugin, biên dịch và chạy bằng JavaFX Plugin
    .\mvnw.cmd clean javafx:run
    ```
-4. Build phần mềm (Gói thành file tệp tin FAT JAR và `.exe` Windows qua Launch4j):
+4. Build phần mềm (FAT JAR):
    ```bash
    .\mvnw.cmd clean package
    ```
+
+### Đóng gói bản phát hành `.exe` tự chứa Java (khuyến nghị)
+
+> Mục tiêu: người dùng cuối chỉ cần tải 1 file `.exe` để cài/chạy, **không cần cài Java riêng**.
+
+Yêu cầu cho máy build:
+- Windows
+- JDK có `jpackage` (khuyến nghị JDK 17+)
+- WiX Toolset (để tạo installer `.exe`) và đã thêm `light.exe`, `candle.exe` vào `PATH`
+
+Lệnh đóng gói:
+
+```bash
+.\mvnw.cmd clean package -Pwindows-exe
+```
+
+Artifact đầu ra:
+- Thư mục: `target\installer\`
+- File cài đặt: `QRCodeTools-<version>.exe`
+
+Ví dụ với version hiện tại:
+- `target\installer\QRCodeTools-1.exe`
+
+> Nếu máy build chưa cài WiX, bạn có thể xuất bản portable app-image (không cần Java trên máy người dùng) bằng lệnh:
+
+```bash
+jpackage --type app-image --name QRCodeTools --input target --main-jar qrcodetools-1.jar --main-class com.baoths.Launcher --runtime-image "%JAVA_HOME%" --dest target\installer
+```
 
 ---
 *Phát triển bởi Baoths. Bản quyền tuân thủ với cấu trúc ứng dụng tiện ích thông minh.*

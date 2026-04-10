@@ -28,7 +28,10 @@
                     <Label text="📂" style="-fx-font-size: 48px;"/>
                     <Label text="Kéo thả ảnh QR vào đây" styleClass="label-subtitle"/>
                     <Label text="hoặc" styleClass="label-status"/>
-                    <Button fx:id="btnChooseFile" text="Chọn file ảnh..." onAction="#handleChooseFile"/>
+                    <HBox alignment="CENTER" spacing="10">
+                        <Button fx:id="btnChooseFile" text="Chọn file ảnh..." onAction="#handleChooseFile"/>
+                        <Button fx:id="btnPasteImage" text="📋 Dán ảnh từ Clipboard" onAction="#handlePasteImageFromClipboard"/>
+                    </HBox>
                 </VBox>
             </StackPane>
 

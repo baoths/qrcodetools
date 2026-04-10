@@ -12,6 +12,8 @@
         <maven.compiler.target>11</maven.compiler.target>
         <javafx.version>13</javafx.version>
         <zxing.version>3.5.2</zxing.version>
+        <app.name>QRCodeTools</app.name>
+        <app.vendor>Baoths</app.vendor>
     </properties>
 
     <repositories>
@@ -162,4 +164,60 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>windows-exe</id>
+            <build>
+                <plugins>
+                    <!-- Build self-contained Windows installer EXE with bundled Java runtime -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.5.0</version>
+                        <executions>
+                            <execution>
+                                <id>package-self-contained-exe</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <skip>${skipExePackage}</skip>
+                                    <executable>jpackage</executable>
+                                    <workingDirectory>${project.basedir}</workingDirectory>
+                                    <arguments>
+                                        <argument>--type</argument>
+                                        <argument>exe</argument>
+                                        <argument>--name</argument>
+                                        <argument>${app.name}</argument>
+                                        <argument>--vendor</argument>
+                                        <argument>${app.vendor}</argument>
+                                        <argument>--app-version</argument>
+                                        <argument>${project.version}</argument>
+                                        <argument>--input</argument>
+                                        <argument>${project.build.directory}</argument>
+                                        <argument>--main-jar</argument>
+                                        <argument>${project.build.finalName}.jar</argument>
+                                        <argument>--main-class</argument>
+                                        <argument>com.baoths.Launcher</argument>
+                                        <argument>--dest</argument>
+                                        <argument>${project.build.directory}/installer</argument>
+                                        <argument>--runtime-image</argument>
+                                        <argument>${java.home}</argument>
+                                        <argument>--win-shortcut</argument>
+                                        <argument>--win-menu</argument>
+                                        <argument>--win-dir-chooser</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+            <properties>
+                <skipExePackage>false</skipExePackage>
+            </properties>
+        </profile>
+    </profiles>
 </project>
