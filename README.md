@@ -58,12 +58,7 @@
 
 ## Cài Đặt & Chạy 🚀
 
-<<<<<<< HEAD
-=======
-### Sử Dụng Trực Tiếp (.EXE)
-Bạn có thể tìm tải và chạy `QRCodeTools.exe`.
 
->>>>>>> 77b8700f5f57ba8c941570feef13d7a8897fed69
 ### Phục Vụ Phát Triển (Dành Cho Dev)
 1. Hãy đảm bảo bạn đã cài đặt Java JDK 11 trở lên.
 2. Clone dự án và đặt tại thư mục làm việc.
