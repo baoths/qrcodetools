@@ -14,6 +14,7 @@
         <zxing.version>3.5.2</zxing.version>
         <app.name>QRCodeTools</app.name>
         <app.vendor>Baoths</app.vendor>
+        <windows.app.version>1.0.0</windows.app.version>
     </properties>
 
     <repositories>
@@ -194,7 +195,7 @@
                                         <argument>--vendor</argument>
                                         <argument>${app.vendor}</argument>
                                         <argument>--app-version</argument>
-                                        <argument>${project.version}</argument>
+                                        <argument>${windows.app.version}</argument>
                                         <argument>--input</argument>
                                         <argument>${project.build.directory}</argument>
                                         <argument>--main-jar</argument>
