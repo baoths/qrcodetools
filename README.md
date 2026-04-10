@@ -2,7 +2,9 @@
 
 **QRCodeTools** là một ứng dụng tiện ích độc lập (Desktop App) được xây dựng bằng công nghệ **JavaFX**, chuyên dùng để tạo, giải mã, quản lý, và quét mã QR Code trực tiếp từ máy tính mà không cần kết nối cơ sở dữ liệu.
 
+
 Ứng dụng hỗ trợ giao diện song ngữ Tiếng Việt, sử dụng mô hình MVC với Dark Mode hiện đại, và có thể đóng gói thành file `.exe` tự chứa runtime Java để người dùng cài đặt trực tiếp.
+=======
 
 ---
 
@@ -56,6 +58,12 @@
 
 ## Cài Đặt & Chạy 🚀
 
+<<<<<<< HEAD
+=======
+### Sử Dụng Trực Tiếp (.EXE)
+Bạn có thể tìm tải và chạy `QRCodeTools.exe`.
+
+>>>>>>> 77b8700f5f57ba8c941570feef13d7a8897fed69
 ### Phục Vụ Phát Triển (Dành Cho Dev)
 1. Hãy đảm bảo bạn đã cài đặt Java JDK 11 trở lên.
 2. Clone dự án và đặt tại thư mục làm việc.
